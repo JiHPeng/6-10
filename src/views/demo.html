@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <div id="app">
+        <div id="components">
+            <button-counter></button-counter>
+        </div>
+        <h1>
+            {{ message }}
+        </h1>
+        <h1>
+            {{ reserveMes }}
+        </h1>
+        <h1>
+            {{ reserveMes1 }}
+        </h1>
+        <h1>
+            {{ reserveMes1() }}
+        </h1>
+        <a :href="aaa" :data-id="number">百度</a>
+        <div v-if="see">if true</div>
+        <div v-else>if false</div>
+        <div v-show="see">show true</div>
+
+        <ul>
+            <li v-for="(x, y) in person1">
+                {{ y }}:姓名：{{ x.name }}
+                年龄：{{ x.age }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="(x, y) in person2">
+                {{ y }}:{{ x }}
+            </li>
+        </ul>
+        <ul>
+            <li v-for="x in personAdult">
+                {{ x.name }}:{{ x.age }}
+            </li>
+        </ul>
+        <div v-for="x in message">{{ x }}</div>
+        <div v-for="x in number">{{ x }}</div>
+
+        <button @click="clickfn()">click</button>
+        <input v-model="val">
+        {{ val }}
+
+        <div>
+            <input type="radio" value="0" id="a" v-model="radioVal" name="aa1"><label for="a"></label>
+            <input type="radio" value="1" id="b" v-model="radioVal" name="aa2"><label for="b"></label>
+            <input type="radio" value="2" id="c" v-model="radioVal" name="aa3"><label for="c"></label>
+            {{ radioVal }}
+        </div>
+        <div>
+            <input type="checkbox" value="0" id="d" v-model="checkboxVal"><label for="d"></label>
+            <input type="checkbox" value="1" id="e" v-model="checkboxVal"><label for="e"></label>
+            <input type="checkbox" value="2" id="f" v-model="checkboxVal"><label for="f"></label>
+            {{ checkboxVal }}
+        </div>
+        <div>
+            <select v-model="selectVal">
+                <option value="1">a</option>
+                <option value="2">b</option>
+                <option value="3">c</option>
+                <option value="4">d</option>
+            </select>
+            {{ selectVal }}
+        </div>
+        <input type="text" v-model="entry">
+        {{ output }}
+    </div>
+    <script>
+
+      var vm = new Vue({
+        el: '#app',
+        data: {
+          entry: '',
+          output: '请输入',
+          message: 'Hello Vue!',
+          radioVal: '1',
+          checkboxVal: [2],
+          selectVal:'3',
+          aaa: 'http://www.baidu.com',
+          see: true,
+          person1:[{name: 'lilei', age: '16'}, {name: 'hanmeimei', age:'18'}, {name: 'hangang', age: '16'}
+          ],
+          person2:{name: 'lilei', age: '16'},
+          number: 3,
+          val: ''
+        },
+        methods:{
+          clickfn:function () {
+            this.see = !this.see
+            this.aaa = 'www.baidu.com'
+            console.log(this.aaa);
+          },
+          reserveMes1:function () {
+            return this.message.split('').reverse().join('')
+          }
+        },
+        computed:{
+            reserveMes:function () {
+              return this.message.split('').reverse().join('')
+            },
+            personAdult:function () {
+              return this.person1.filter(function (x) {
+                return x.age > 17
+              })
+            }
+        },
+        watch:{
+            entry:function () {
+                this.output = '请稍后';
+                let a = this;
+                setTimeout(function () {
+                  a.output = '再试试'
+                },1000)
+            }
+        }
+      });
+      Vue.component('button-counter', {
+        data: function () {
+          return {
+            count: 0
+          }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+      })
+      new Vue({ el: '#components' })
+
+    </script>
+</body>
+</html>
